@@ -22,7 +22,7 @@ router.get('/', async (req, res) => {
       authors: authors,
       searchOptions: req.query,
     });
-  } catch {
+  } catch (e) {
     res.redirect('/');
   }
 });
