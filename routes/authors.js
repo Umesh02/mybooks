@@ -56,20 +56,16 @@ router.post('/', (req, res) => {
 
 //  Create Author Route with Async Await
 router.post('/', async (req, res) => {
-  //   res.send('Hello from express server');
-  // res.send(req.body.name);
   const author = new Author({
     name: req.body.name,
   });
-
   try {
     const newAuthor = await author.save();
-    // res.redirect(`authors/${newAuthor.id}`)
-    res.redirect(`authors`);
+    res.redirect(`authors/${newAuthor.id}`);
   } catch {
     res.render('authors/new', {
       author: author,
-      errorMessage: 'Error creating author',
+      errorMessage: 'Error creating Author',
     });
   }
 });
