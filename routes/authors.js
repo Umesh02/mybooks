@@ -12,41 +12,25 @@ router.get('/', (req, res) => {
 
 //  All Authors Route with Async Await
 router.get('/', async (req, res) => {
-  let searchOptions = {};
+  const searchOptions = {};
   if (req.query.name != null && req.query.name !== '') {
     searchOptions.name = new RegExp(req.query.name, 'i');
   }
   try {
     const authors = await Author.find(searchOptions);
-    res.render('authors/index', {
-      authors: authors,
-      searchOptions: req.query,
-    });
-  } catch (err) {
+    res.render('authors/index', { authors, searchOptions: req.query });
+  } catch (error) {
     res.redirect('/');
-    next(err);
+    next();
   }
 });
 
-// New Author Route
+//  New Author Route
 router.get('/new', (req, res) => {
-  res.render('authors/new', { author: new Author() });
-});
-
-// Create Author Route
-router.post('/', async (req, res) => {
-  const author = new Author({
-    name: req.body.name,
+  //   res.send('Hello from express server');
+  res.render('authors/new', {
+    author: new Author(),
   });
-  try {
-    const newAuthor = await author.save();
-    // res.redirect(`authors/${newAuthor.id}`);
-  } catch {
-    res.render('authors/new', {
-      author: author,
-      errorMessage: 'Error creating Author',
-    });
-  }
 });
 
 /*
@@ -69,22 +53,26 @@ router.post('/', (req, res) => {
     }
   });
 });
-
+*/
 
 //  Create Author Route with Async Await
 router.post('/', async (req, res) => {
+  //   res.send('Hello from express server');
+  // res.send(req.body.name);
   const author = new Author({
     name: req.body.name,
   });
+
   try {
     const newAuthor = await author.save();
-    res.redirect(`authors/${newAuthor.id}`);
-  } catch {
+    // res.redirect(`authors/${newAuthor.id}`)
+    res.redirect(`authors`);
+  } catch (error) {
     res.render('authors/new', {
       author: author,
-      errorMessage: 'Error creating Author',
+      errorMessage: 'Error creating author',
     });
   }
 });
-*/
+
 module.exports = router;
