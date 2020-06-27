@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>myBooks</title>
+    <!-- css -->
+
     <link
       href="https://unpkg.com/filepond/dist/filepond.css"
       rel="stylesheet"
@@ -12,6 +14,9 @@
       href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="/stylesheets/main.css" />
+
+    <!-- JavaScript -->
     <script
       defer
       src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"
@@ -28,8 +33,12 @@
     <script defer src="/javascripts/fileUpload.js"></script>
   </head>
   <body>
-    <%- include('../partials/header.ejs')%> <%-
-    include('../partials/errorMessage.ejs')%> <%- body %>
+    <div class="container">
+      <%- include('../partials/header.ejs')%>
+      <div class="inner-container">
+        <%- include('../partials/errorMessage.ejs')%> <%- body %>
+      </div>
+    </div>
 
     <script>
       // FilePond.registerPlugin(FilePondPluginImagePreview);
