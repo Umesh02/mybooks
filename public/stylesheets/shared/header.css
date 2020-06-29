@@ -34,7 +34,7 @@
   color: var(--color-text-light);
   font-weight: var(--nav-link-font-weight);
   padding: 1rem;
-  transition: all 1s linear;
+  transition: all 1s ease-in-out;
 }
 
 .header-nav li a:hover,
