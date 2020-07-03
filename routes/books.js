@@ -34,7 +34,7 @@ router.get('/', async (req, res) => {
       searchOptions: req.query,
     });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
 
     res.redirect('/');
   }
@@ -57,7 +57,11 @@ router.post('/', async (req, res) => {
     // coverImageName: fileName,
     description: req.body.description,
   });
-  saveCover(book, req.body.cover);
+
+  // saveCover(book, req.body.cover);
+  if (req.body.cover != null && req.body.cover != '') {
+    saveCover(book, req.body.cover);
+  }
   try {
     const newBook = await book.save();
     res.redirect(`books/${newBook.id}`);
@@ -185,20 +189,25 @@ async function renderFormPage(res, book, form, hasError = false) {
     };
     if (hasError) {
       if ((form = 'edit')) {
-        params.errorMessage = 'Error Updating Book';
+        params.errorMessage =
+          'Error Updating Book.  Make sure all input fields are filled.';
       } else {
-        params.errorMessage = 'Error Creating Book';
+        params.errorMessage =
+          'Error Creating Book.  Make sure all input fields are filled.';
       }
     }
     // const book = new Book();  this line was causing the form to create new book not rendering
     res.render(`books/${form}`, params);
   } catch (error) {
+    // console.log('error:', error);
+
     res.redirect('/books');
   }
 }
 
 function saveCover(book, coverEncoded) {
-  if (coverEncoded == null) return;
+  if (coverEncoded == null && coverEncoded == '') return;
+  // const cover = JSON.parse(JSON.stringify(coverEncoded));
   const cover = JSON.parse(coverEncoded);
   if (cover != null && imageMimeTypes.includes(cover.type)) {
     book.coverImage = new Buffer.from(cover.data, 'base64');

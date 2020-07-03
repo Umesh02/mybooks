@@ -71,7 +71,7 @@ router.post('/', async (req, res) => {
   } catch (error) {
     res.render('authors/new', {
       author: author,
-      errorMessage: 'Error creating author',
+      errorMessage: 'Error creating author.  Make sure field is not empty.',
     });
   }
 });
@@ -96,6 +96,7 @@ router.get('/:id/edit', async (req, res) => {
     const author = await Author.findById(req.params.id);
     res.render('authors/edit', {
       author: author,
+      errorMsg: '',
     });
   } catch (error) {
     res.redirect('/authors');
@@ -127,13 +128,17 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   let author;
   try {
-    const author = await Author.findById(req.params.id);
+    author = await Author.findById(req.params.id);
     await author.remove();
     // res.redirect(`/authors/${newAuthor.id}`);
     res.redirect('/authors');
   } catch (error) {
-    if (author == null) {
-      res.redirect('/');
+    //
+    if (author !== null) {
+      res.render('authors/edit', {
+        author: author,
+        errorMsg: error.message,
+      });
     } else {
       res.redirect(`/authors/${author.id}`);
     }
